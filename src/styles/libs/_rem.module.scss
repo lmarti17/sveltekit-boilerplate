@@ -1,0 +1,5 @@
+@use 'sass:math';
+
+@function toRem($pixel) {
+	@return calc(math.div(strip-unit($pixel), strip-unit($rem-reference)) * 1rem);
+}

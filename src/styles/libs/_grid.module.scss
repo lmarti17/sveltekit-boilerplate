@@ -1,0 +1,99 @@
+@use 'sass:math';
+@use 'sass:map';
+
+@function column($g) {
+	@return math.div(
+		map.get($g, 'reference') -
+			((map.get($g, 'gutter') * (map.get($g, 'total') - 1)) + (map.get($g, 'margin') * 2)),
+		map.get($g, 'total')
+	);
+}
+
+$g: (
+	'margin': $margin-reference,
+	'gutter': $gutter,
+	'reference': $width-reference,
+	'total': $columns-count
+);
+$g: map.set($g, 'column', column($g));
+
+// $gi: ('margin' : $margin-reference, 'static-margin' : strip-unit($offset-x), 'gutter': 16, 'reference': $width-reference, 'total': 12, 'multiplier': 10/12);
+// $gi: map.set($gi, 'column', column($gi));
+
+$gm: (
+	'margin': $margin-reference-m,
+	'gutter': $gutter-m,
+	'reference': $width-reference-m,
+	'total': $columns-count-m
+);
+$gm: map.set($gm, 'column', column($gm));
+
+@function _liquid($px, $reference, $suffix: '') {
+	@return calc(
+		(
+			#{liquidRaw($px, map.get($reference, 'reference'))} * min(var(--vw), #{$width-reference}) #{$suffix}
+		)
+	);
+	// @return calc((#{liquidRaw($px, map.get($reference, 'reference'))} * var(--vw) #{$suffix}));
+}
+
+@function liquid($px, $suffix: '') {
+	@return _liquid($px, $g, $suffix);
+}
+
+// @function liquidInner($px, $suffix: '') {
+//   @return _liquid($px, $gi, $suffix);
+// }
+
+@function liquidM($px, $suffix: '') {
+	@return _liquid($px, $gm, $suffix);
+}
+
+@function liquidRaw($px, $reference) {
+	@return math.div(strip-unit($px), strip-unit($reference));
+}
+
+@function _grid($reference, $columns, $gutters) {
+	$columnWidth: $columns * map.get($reference, 'column');
+	$gutterWidth: (max(0, (math.floor($columns) - 1)) + $gutters) * map.get($reference, 'gutter');
+	@return $columnWidth + $gutterWidth;
+}
+
+@function grid($columns, $gutters: 0, $calc: true, $suffix: '') {
+	$value: _grid($g, $columns, $gutters);
+	@if ($calc) {
+		@return liquid($value, $suffix);
+	}
+	@return liquidRaw($value, map.get($g, 'reference'));
+}
+
+@function gutters($gutters: 0, $calc: true, $suffix: '') {
+	$value: $gutters * map.get($g, 'gutter');
+	@if ($calc) {
+		@return liquid($value, $suffix);
+	}
+	@return liquidRaw($value, map.get($g, 'reference'));
+}
+
+// @function gridInner($columns, $gutters: 0, $suffix: '') {
+//   $value : _grid($gi, $columns, $gutters);
+//   $vw : "((var(--vw) * #{map.get($gi, 'multiplier')}) - #{2 * map.get($gi, 'static-margin') * 1rem})";
+
+//   @return calc((#{liquidRaw($value, map.get($gi, 'reference'))} * #{$vw} #{$suffix}));
+// }
+
+@function gridM($columns, $gutters: 0, $calc: true, $suffix: '') {
+	$value: _grid($gm, $columns, $gutters);
+	@if ($calc) {
+		@return liquidM($value, $suffix);
+	}
+	@return liquidRaw($value, map.get($gm, 'reference'));
+}
+
+@function guttersM($gutters: 0, $calc: true, $suffix: '') {
+	$value: $gutters * map.get($gm, 'gutter');
+	@if ($calc) {
+		@return liquidM($value, $suffix);
+	}
+	@return liquidRaw($value, map.get($gm, 'reference'));
+}

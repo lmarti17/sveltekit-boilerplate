@@ -1,0 +1,125 @@
+* {
+	text-rendering: optimizelegibility;
+	font-variant-ligatures: no-common-ligatures;
+	-moz-osx-font-smoothing: grayscale;
+	-moz-font-smoothing: antialiased;
+	-webkit-font-smoothing: antialiased;
+	-webkit-tap-highlight-color: rgb(0 0 0 / 0%);
+	-webkit-touch-callout: none;
+	-webkit-text-size-adjust: 100%;
+	box-sizing: border-box;
+}
+
+html,
+body {
+	width: 100%;
+	height: auto;
+	margin: 0;
+	overscroll-behavior: none;
+}
+
+html {
+	height: 100%;
+	overflow: visible;
+	position: relative;
+	min-height: 100%;
+
+	scroll-behavior: initial;
+}
+
+body {
+	position: relative;
+	min-height: 100%;
+	max-width: 100%;
+	padding: 0;
+	margin: 0;
+	overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+figure {
+	font-size: inherit;
+	letter-spacing: inherit;
+	font-weight: normal;
+	margin: 0;
+
+	br {
+		margin: 0 !important;
+	}
+}
+
+p {
+	margin: 0;
+	padding: 0;
+}
+
+button,
+a {
+	cursor: pointer;
+	font-weight: inherit;
+	text-decoration: none;
+	color: inherit;
+	letter-spacing: inherit;
+}
+
+button {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+input,
+button,
+a {
+	&:focus,
+	&:active {
+		outline: none;
+	}
+}
+
+strong {
+	font-weight: bold;
+}
+
+ul {
+	padding: 0;
+	margin: 0;
+
+	li {
+		list-style-type: none;
+	}
+}
+
+img {
+	display: block;
+}
+
+button,
+input[type='submit'] {
+	appearance: none;
+	border: none;
+	display: block;
+	cursor: pointer;
+	background: transparent;
+	padding: 0;
+	letter-spacing: inherit;
+	text-transform: inherit;
+	font-size: inherit;
+	color: inherit;
+}
+
+button,
+input,
+textarea {
+	font-family: inherit;
+	text-transform: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	letter-spacing: inherit;
+	line-height: inherit;
+	text-align: inherit;
+}
